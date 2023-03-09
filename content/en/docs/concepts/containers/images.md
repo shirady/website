@@ -164,13 +164,11 @@ As well as providing binary images, a container registry can also serve a
 An image index can point to multiple [image manifests](https://github.com/opencontainers/image-spec/blob/master/manifest.md)
 for architecture-specific versions of a container. The idea is that you can have a name for an image
 (for example: `pause`, `example/mycontainer`, `kube-apiserver`) and allow different systems to
-fetch the right binary image for the machine architecture they are using.
+fetch the right binary image for the machine architecture they are using. Kubernetes itself typically names container images with a suffix `-$(ARCH)`. For backward compatibility, please generate the older images with suffixes.
 
-Kubernetes itself typically names container images with a suffix `-$(ARCH)`. For backward
-compatibility, please generate the older images with suffixes. The idea is to generate say `pause`
-image which has the manifest for all the arch(es) and say `pause-amd64` which is backwards
-compatible for older configurations or YAML files which may have hard coded the images with
-suffixes.
+For example `pause` and `pause-amd64`:
+- `pause` image is generated the manifest for all the machine architectures.
+- For backward compatibility use `pause-amd64` for the architecture-specific version of `amd64` (it is compatible for older configurations or YAML files which may have hard coded the images with suffixes).
 
 ## Using a private registry
 
